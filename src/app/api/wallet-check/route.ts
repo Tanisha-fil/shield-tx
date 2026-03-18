@@ -54,6 +54,23 @@ export async function POST(request: NextRequest) {
       getUserFills(normalizedAddress),
     ]);
 
+    // Check if this wallet has any real activity on Hyperliquid
+    const accountValue = parseFloat(state.marginSummary.accountValue);
+    const hasPositions = state.assetPositions.some(
+      (p) => parseFloat(p.position.szi) !== 0
+    );
+    const hasFills = fills.length > 0;
+
+    if (!hasPositions && !hasFills && accountValue < 1) {
+      return NextResponse.json(
+        {
+          error:
+            "No activity found for this address on Hyperliquid. Make sure this is an active HL trading wallet.",
+        },
+        { status: 404 }
+      );
+    }
+
     // Run analysis — uses real correlation if Supabase has data, heuristic otherwise
     const result = await analyzeExposure(state, fills, normalizedAddress);
 
