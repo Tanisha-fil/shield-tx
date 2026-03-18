@@ -5,11 +5,10 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const HL_WS_URL = "wss://api.hyperliquid.xyz/ws";
 
+// Start with top 10 most liquid perps — scale up once connection is stable
 const TOP_COINS = [
-  "BTC", "ETH", "SOL", "DOGE", "XRP", "AVAX", "MATIC", "ARB",
-  "OP", "SUI", "APT", "INJ", "TIA", "SEI", "JUP", "WIF",
-  "PEPE", "BONK", "ONDO", "LINK", "AAVE", "MKR", "SNX", "GMX",
-  "PENDLE", "STX", "NEAR", "FTM", "ATOM", "DOT",
+  "BTC", "ETH", "SOL", "DOGE", "XRP",
+  "AVAX", "ARB", "SUI", "LINK", "OP",
 ];
 
 const BATCH_SIZE = 200;
@@ -128,6 +127,30 @@ async function cleanupOldTrades() {
 
 // --- WebSocket ---
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function subscribeAll(socket: WebSocket) {
+  for (let i = 0; i < TOP_COINS.length; i++) {
+    if (socket.readyState !== WebSocket.OPEN) {
+      console.log(`[ws] Connection lost during subscribe at coin ${i}, aborting`);
+      return;
+    }
+    socket.send(
+      JSON.stringify({
+        method: "subscribe",
+        subscription: { type: "trades", coin: TOP_COINS[i] },
+      })
+    );
+    // Stagger subscriptions — 200ms between each to avoid flooding
+    if (i < TOP_COINS.length - 1) {
+      await sleep(200);
+    }
+  }
+  console.log(`[ws] Subscribed to ${TOP_COINS.length} coins`);
+}
+
 function connect() {
   console.log("[ws] Connecting to Hyperliquid...");
   ws = new WebSocket(HL_WS_URL);
@@ -136,22 +159,14 @@ function connect() {
     console.log("[ws] Connected");
     reconnectAttempts = 0;
 
-    // Subscribe to trades for each coin
-    for (const coin of TOP_COINS) {
-      ws!.send(
-        JSON.stringify({
-          method: "subscribe",
-          subscription: { type: "trades", coin },
-        })
-      );
-    }
-    console.log(`[ws] Subscribed to ${TOP_COINS.length} coins`);
+    // Subscribe with staggered timing
+    subscribeAll(ws!);
 
     // Start heartbeat
     if (heartbeatTimer) clearInterval(heartbeatTimer);
     heartbeatTimer = setInterval(() => {
       if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.ping();
+        ws.send(JSON.stringify({ method: "ping" }));
       }
     }, HEARTBEAT_INTERVAL_MS);
   });
