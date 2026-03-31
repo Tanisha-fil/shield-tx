@@ -6,8 +6,8 @@ import { ExposureChecker } from "@/components/sections/ExposureChecker";
 import { ProblemSection } from "@/components/sections/ProblemSection";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { TrustSection } from "@/components/sections/TrustSection";
-import { SocialProof } from "@/components/sections/SocialProof";
 import { PricingSection } from "@/components/sections/PricingSection";
+import { FAQSection } from "@/components/sections/FAQSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Footer } from "@/components/sections/Footer";
 
@@ -21,8 +21,8 @@ export default function Home() {
         <ProblemSection />
         <HowItWorks />
         <TrustSection />
-        <SocialProof />
         <PricingSection />
+        <FAQSection />
         <CTASection />
       </main>
       <Footer />

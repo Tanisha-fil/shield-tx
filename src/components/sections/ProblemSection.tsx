@@ -1,25 +1,12 @@
 "use client";
 
 import { SectionWrapper } from "../ui/SectionWrapper";
-import { COPY_TOOLS } from "@/lib/constants";
-
 export function ProblemSection() {
   return (
     <SectionWrapper>
       <h2 className="text-3xl md:text-5xl font-bold text-shieldtx-text mb-12">
         The copy-trade ecosystem is bigger than you think.
       </h2>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-12">
-        {COPY_TOOLS.map((tool) => (
-          <div
-            key={tool}
-            className="border border-shieldtx-border bg-shieldtx-surface px-4 py-3 font-mono text-sm text-shieldtx-muted"
-          >
-            {tool}
-          </div>
-        ))}
-      </div>
 
       <div className="space-y-6 max-w-3xl">
         <p className="text-lg text-shieldtx-text">

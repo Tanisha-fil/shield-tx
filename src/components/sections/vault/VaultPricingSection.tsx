@@ -1,12 +1,12 @@
 "use client";
 
-import { SectionWrapper } from "../ui/SectionWrapper";
+import { SectionWrapper } from "../../ui/SectionWrapper";
 
-export function PricingSection() {
+export function VaultPricingSection() {
   return (
-    <SectionWrapper id="pricing">
+    <SectionWrapper id="vault-pricing">
       <h2 className="text-3xl md:text-5xl font-bold text-shieldtx-text mb-4">
-        Copy traders take 5–15 bps from you per trade. Shield TX costs less than the leak.
+        Strategy leakage costs more than shielded execution.
       </h2>
       <p className="text-lg text-shieldtx-muted mb-12">
         Simple per-trade fees. No subscriptions.

@@ -1,45 +1,66 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { GlowButton } from "../ui/GlowButton";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isVaultPage = pathname === "/vaults";
 
   function scrollTo(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   }
 
+  const navLinks = isVaultPage
+    ? [
+        { label: "How It Works", id: "vault-how-it-works" },
+        { label: "Trust", id: "vault-trust" },
+        { label: "Pricing", id: "vault-pricing" },
+      ]
+    : [
+        { label: "How It Works", id: "how-it-works" },
+        { label: "Trust", id: "trust" },
+        { label: "Pricing", id: "pricing" },
+      ];
+
+  const ctaLabel = isVaultPage ? "Check Your Vault" : "Check Your Exposure";
+  const ctaTarget = isVaultPage ? "vault-checker" : "exposure-checker";
+
+  const switcherLabel = isVaultPage ? "Traders" : "Vault Managers";
+  const switcherHref = isVaultPage ? "/" : "/vaults";
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-shieldtx-bg/80 backdrop-blur-md border-b border-shieldtx-border/50">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 h-20 flex items-center justify-between">
-        <span className="font-mono text-base md:text-lg font-bold tracking-[0.2em] text-shieldtx-text">
+        <Link href="/" className="font-mono text-base md:text-lg font-bold tracking-[0.2em] text-shieldtx-text hover:text-shieldtx-green transition-colors">
           SHIELD TX
-        </span>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-10">
-          <button
-            onClick={() => scrollTo("how-it-works")}
-            className="font-mono text-sm text-shieldtx-muted hover:text-shieldtx-text transition-colors cursor-pointer"
-          >
-            How It Works
-          </button>
-          <button
-            onClick={() => scrollTo("trust")}
-            className="font-mono text-sm text-shieldtx-muted hover:text-shieldtx-text transition-colors cursor-pointer"
-          >
-            Trust
-          </button>
-          <button
-            onClick={() => scrollTo("pricing")}
-            className="font-mono text-sm text-shieldtx-muted hover:text-shieldtx-text transition-colors cursor-pointer"
-          >
-            Pricing
-          </button>
-          <GlowButton size="md" onClick={() => scrollTo("exposure-checker")}>
-            Check Your Exposure
+          {isVaultPage && (
+            <Link
+              href={switcherHref}
+              className="font-mono text-xs text-shieldtx-muted/60 hover:text-shieldtx-green transition-colors border border-shieldtx-border/50 px-3 py-1.5 hover:border-shieldtx-green/30"
+            >
+              {switcherLabel} &rarr;
+            </Link>
+          )}
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className="font-mono text-sm text-shieldtx-muted hover:text-shieldtx-text transition-colors cursor-pointer"
+            >
+              {link.label}
+            </button>
+          ))}
+          <GlowButton size="md" onClick={() => scrollTo(ctaTarget)}>
+            {ctaLabel}
           </GlowButton>
         </div>
 
@@ -66,26 +87,26 @@ export function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden border-t border-shieldtx-border bg-shieldtx-bg px-6 py-4 space-y-4">
-          <button
-            onClick={() => scrollTo("how-it-works")}
-            className="block font-mono text-xs text-shieldtx-muted hover:text-shieldtx-text cursor-pointer"
-          >
-            How It Works
-          </button>
-          <button
-            onClick={() => scrollTo("trust")}
-            className="block font-mono text-xs text-shieldtx-muted hover:text-shieldtx-text cursor-pointer"
-          >
-            Trust
-          </button>
-          <button
-            onClick={() => scrollTo("pricing")}
-            className="block font-mono text-xs text-shieldtx-muted hover:text-shieldtx-text cursor-pointer"
-          >
-            Pricing
-          </button>
-          <GlowButton size="md" onClick={() => scrollTo("exposure-checker")} className="w-full">
-            Check Your Exposure
+          {isVaultPage && (
+            <Link
+              href={switcherHref}
+              onClick={() => setMenuOpen(false)}
+              className="block font-mono text-xs text-shieldtx-muted/60 hover:text-shieldtx-green"
+            >
+              {switcherLabel} &rarr;
+            </Link>
+          )}
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className="block font-mono text-xs text-shieldtx-muted hover:text-shieldtx-text cursor-pointer"
+            >
+              {link.label}
+            </button>
+          ))}
+          <GlowButton size="md" onClick={() => scrollTo(ctaTarget)} className="w-full">
+            {ctaLabel}
           </GlowButton>
         </div>
       )}

@@ -1,4 +1,3 @@
-import { PricingTier } from "./types";
 
 export const COLORS = {
   bg: "#0A0A0F",
@@ -11,20 +10,6 @@ export const COLORS = {
   amber: "#FFB800",
 } as const;
 
-export const COPY_TOOLS = [
-  "Dexly",
-  "HyperDash",
-  "CoinGlass",
-  "Nansen",
-  "Hyperbot",
-  "SuperX",
-  "Open-source bots",
-  "Arkham",
-  "Debank",
-  "Custom scripts",
-  "Telegram bots",
-  "Mirror protocols",
-];
 
 export const CYCLING_STATS = [
   { value: "12+", label: "copy-trading tools monitor HL wallets" },
@@ -33,52 +18,6 @@ export const CYCLING_STATS = [
   { value: "$0", label: "cost for anyone to query your open positions" },
 ];
 
-export const PRICING_TIERS: PricingTier[] = [
-  {
-    name: "Starter",
-    price: "Free",
-    volumeRange: "<$10K/mo",
-    features: [
-      "Shielded execution on 5 markets",
-      "Basic exposure scan",
-      "Community Discord",
-    ],
-  },
-  {
-    name: "Pro",
-    price: "$99/mo",
-    volumeRange: "$10K-$500K/mo",
-    features: [
-      "Shielded execution on all markets",
-      "Full correlation scan",
-      "Priority fills",
-      "Email support",
-    ],
-    highlighted: true,
-  },
-  {
-    name: "Whale",
-    price: "0.15% vol",
-    volumeRange: "$500K-$5M/mo",
-    features: [
-      "Everything in Pro",
-      "Dedicated execution path",
-      "Custom shielding rules",
-      "Direct Telegram support",
-    ],
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    volumeRange: "$5M+/mo",
-    features: [
-      "Everything in Whale",
-      "Multi-account shielding",
-      "API access",
-      "SLA guarantee",
-    ],
-  },
-];
 
 export const VOLUME_RANGES = [
   "< $10K/mo",
@@ -108,4 +47,48 @@ export const SOCIAL_PROOF = [
       "I'd pay 0.2-0.3% of volume. The copy-bots cost me more than that.",
     persona: "whale, $5M+ vol",
   },
+];
+
+// ============================================================
+// Vault constants
+// ============================================================
+
+export const VAULT_AUM_RANGES = [
+  "< $100K",
+  "$100K - $500K",
+  "$500K - $1M",
+  "$1M - $5M",
+  "$5M - $10M",
+  "$10M+",
+];
+
+
+export const VAULT_SOCIAL_PROOF = [
+  {
+    quote:
+      "I can see competing managers open the same positions within a minute of my vault. It's not a coincidence.",
+    persona: "vault manager, $2.4M AUM",
+  },
+  {
+    quote:
+      "My commission is 10% but the free-riders extracting alpha from my strategy pay 0%. That math doesn't work.",
+    persona: "vault manager, $800K AUM",
+  },
+  {
+    quote:
+      "I've considered closing the vault entirely. The strategy leakage costs more than the commission earns.",
+    persona: "vault manager, $5M AUM",
+  },
+  {
+    quote:
+      "If I could choose what's visible and when, I'd triple my vault size overnight. Depositors want privacy too.",
+    persona: "vault manager, $1.2M AUM",
+  },
+];
+
+export const VAULT_CYCLING_STATS = [
+  { value: "100%", label: "of vault positions are publicly queryable" },
+  { value: "<45s", label: "for a competing manager to clone your trade" },
+  { value: "$0", label: "cost to extract your full strategy in real-time" },
+  { value: "0", label: "opt-out options within Hyperliquid's architecture" },
 ];

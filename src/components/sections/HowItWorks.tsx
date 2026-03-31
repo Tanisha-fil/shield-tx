@@ -5,21 +5,33 @@ import { SectionWrapper } from "../ui/SectionWrapper";
 const STEPS = [
   {
     number: "01",
-    title: "Connect",
+    title: "Deposit",
     description:
-      "Link your HL wallet. No private keys, no signing. Read-only connection to verify your account.",
+      "Send USDC to the shielded vault on Arbitrum. Your balance becomes private shielded notes — only you can see them.",
   },
   {
     number: "02",
-    title: "Trade",
+    title: "Open",
     description:
-      "Execute through Shield TX. Your orders go to Hyperliquid's matching engine directly. Same orderbook, same liquidity.",
+      "A fresh, unlinkable Hyperliquid account is created for this trade. Your identity and other positions are not connected to it.",
   },
   {
     number: "03",
-    title: "Fill",
+    title: "Trade",
     description:
-      "Your fills land on-chain. But your pre-trade intent, your position sizing, your entry timing — none of that broadcasts to the public feed until after execution.",
+      "Execute directly on Hyperliquid's orderbook. Same liquidity, same fills as trading natively.",
+  },
+  {
+    number: "04",
+    title: "Close",
+    description:
+      "Close your position on Hyperliquid. Proceeds return to your shielded balance, unlinkable to the original trade.",
+  },
+  {
+    number: "05",
+    title: "Withdraw",
+    description:
+      "Burn shielded notes and withdraw USDC back to your wallet via a ZK-verified on-chain proof. No admin approval needed.",
   },
 ];
 
@@ -30,10 +42,10 @@ export function HowItWorks() {
         Same fills. No footprint.
       </h2>
       <p className="text-lg text-shieldtx-muted mb-12 max-w-2xl">
-        Three steps between you and shielded execution.
+        Five steps between you and shielded execution.
       </p>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-5 gap-8">
         {STEPS.map((step) => (
           <div key={step.number} className="border border-shieldtx-border bg-shieldtx-surface p-6 md:p-8">
             <span className="font-mono text-shieldtx-green text-sm">{step.number}</span>

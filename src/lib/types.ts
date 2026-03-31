@@ -72,13 +72,6 @@ export interface SpotMeta {
   universe: Array<{ tokens: [number, number]; name: string }>;
 }
 
-export interface PricingTier {
-  name: string;
-  price: string;
-  volumeRange: string;
-  features: string[];
-  highlighted?: boolean;
-}
 
 export interface SignupData {
   address: string;
@@ -97,3 +90,73 @@ export interface DbTrade {
   buyer: string;
   seller: string;
 }
+
+// ============================================================
+// Vault types
+// ============================================================
+
+export interface VaultSummary {
+  name: string;
+  vaultAddress: string;
+  leader: string;
+  tvl: string;
+  isClosed: boolean;
+  createTimeMillis: number;
+}
+
+export interface VaultFollower {
+  user: string;
+  vaultEquity: string;
+  pnl: string;
+  allTimePnl: string;
+  daysFollowing: number;
+}
+
+export interface VaultDetails {
+  leader: string;
+  name: string;
+  tvl: string;
+  apr: number;
+  leaderCommission: number;
+  followers: VaultFollower[];
+  portfolio: Array<{
+    coin: string;
+    szi: string;
+    entryPx: string;
+    positionValue: string;
+    unrealizedPnl: string;
+  }>;
+}
+
+export interface VaultCopierInfo {
+  address: string;
+  correlatedTrades: number;
+  avgLagMs: number;
+  isDepositor: boolean;
+  depositedAmount: string | null;
+}
+
+export interface VaultLeakageResult {
+  vaultName: string;
+  vaultAddress: string;
+  tvl: number;
+  depositorCount: number;
+  apr: number;
+  totalCopiers: number;
+  freeRiderCount: number;
+  copiers: VaultCopierInfo[];
+  estimatedLeakageBps: number;
+  estimatedAnnualCost: number;
+  recentFills: number;
+  scanPeriodDays: number;
+  isEstimate: boolean;
+}
+
+export interface VaultSignupData {
+  address: string;
+  vaultAddress: string;
+  vaultName?: string;
+  email?: string;
+  aumRange: string;
+}
+
